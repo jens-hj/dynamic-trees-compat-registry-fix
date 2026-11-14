@@ -23,6 +23,10 @@ A read-only audit copy of the hosted world was scanned: 32,205 region chunk reco
 
 This is not a general migration guarantee for other worlds. Back up and inspect worlds that may already contain the removed compatibility variants. The scan excludes `level.dat` registry snapshots, which list unused entries too; actual world loading is checked separately.
 
+## Multiplayer
+
+A patched cached client joined a patched fresh-cache dedicated server running the hosted-world copy. It completed the original DTC configuration handshake, entered the world, remained connected for 100 client ticks, and exited normally. The test used an offline test identity and a loopback-only server; no live hosting account or player session was used.
+
 ## Packaging
 
 The release contains only two addon classes, its Mixin configuration, NeoForge metadata, the original icon, and MIT license. It contains no upstream classes or assets and no test classes. Unsupported DTC versions are rejected by the exact `2.3` dependency constraint.
