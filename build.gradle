@@ -54,3 +54,23 @@ modrinth {
     dependencies { required.version 'zz3RX281' }
 }
 tasks.named('modrinth') { notCompatibleWithConfigurationCache('Minotaur reads Task.project') }
+
+// Minotaur 2.10 does not implement -PmodrinthDryRun itself. Make the release gate
+// explicitly non-publishing rather than silently running the upload action.
+if (providers.gradleProperty('modrinthDryRun').isPresent()) {
+    tasks.register('modrinthPreview') {
+        dependsOn tasks.named('jar'), tasks.named('sourcesJar')
+        doLast {
+            def preview = [project: 'dynamic-trees-compat-registry-fix', version: project.version,
+                gameVersions: ['1.21.1'], loaders: ['neoforge'], environment: 'client_and_server',
+                requiredVersion: 'zz3RX281', file: tasks.jar.archiveFile.get().asFile.name,
+                sources: tasks.sourcesJar.archiveFile.get().asFile.name]
+            println groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(preview))
+            println 'Dry run: upload action disabled.'
+        }
+    }
+    tasks.named('modrinth') {
+        dependsOn 'modrinthPreview'
+        onlyIf { false }
+    }
+}
