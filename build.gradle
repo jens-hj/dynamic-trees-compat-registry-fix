@@ -1,0 +1,56 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+    id 'com.modrinth.minotaur' version '2.10.0'
+}
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
+}
+repositories {
+    mavenCentral()
+    maven { url = 'https://api.modrinth.com/maven' }
+}
+neoForge {
+    version = '21.1.266'
+    mods { dtc_registry_fix { sourceSet sourceSets.main } }
+}
+sourceSets {
+    testmod {
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+dependencies {
+    compileOnly 'maven.modrinth:I3Kxw8uG:zz3RX281'
+}
+processResources {
+    from('icon.png')
+    inputs.property 'version', project.version
+    filesMatching('META-INF/neoforge.mods.toml') { expand version: project.version }
+}
+tasks.withType(Jar).configureEach { from('LICENSE') }
+tasks.register('testmodJar', Jar) {
+    archiveClassifier = 'testmod'
+    from sourceSets.testmod.output
+}
+def modrinthToken = providers.environmentVariable('MODRINTH_TOKEN').orElse(
+    providers.fileContents(layout.projectDirectory.file("${System.getProperty('user.home')}/.config/modrinth-token"))
+        .asText.map { it.trim() })
+modrinth {
+    token = modrinthToken
+    projectId = 'dynamic-trees-compat-registry-fix'
+    versionNumber = project.version
+    versionName = "${project.version} (NeoForge 1.21.1)"
+    versionType = 'release'
+    environment = 'client_and_server'
+    uploadFile = jar
+    additionalFiles { sourcesJar(tasks.named('sourcesJar')) }
+    gameVersions = ['1.21.1']
+    loaders = ['neoforge']
+    changelog = providers.fileContents(layout.projectDirectory.file('CHANGELOG.md')).asText.map {
+        it.split('## 0.1.0')[1].trim()
+    }
+    dependencies { required.version 'zz3RX281' }
+}
+tasks.named('modrinth') { notCompatibleWithConfigurationCache('Minotaur reads Task.project') }
