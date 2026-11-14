@@ -1,0 +1,9 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+[[mods]]
+modId = "registry_audit"
+version = "1.0"
+displayName = "Registry audit (tests only)"
+[[mixins]]
+config = "registry_audit.mixins.json"

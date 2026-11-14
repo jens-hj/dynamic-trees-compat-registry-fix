@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.jensh.dtcregistryfix.test.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["CacheFixtureMixin"],
+  "injectors": {"defaultRequire": 1}
+}
