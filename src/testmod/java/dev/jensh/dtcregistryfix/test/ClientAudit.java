@@ -14,6 +14,8 @@ public final class ClientAudit {
     private boolean connecting;
     private int joinedTicks;
     private long connectionStarted;
+    private int screenTicks;
+    private boolean screenshotRequested;
 
     public static void install() {
         ClientAudit audit = new ClientAudit();
@@ -22,6 +24,18 @@ public final class ClientAudit {
 
     private void tick() {
         Minecraft mc = Minecraft.getInstance();
+        if (RegistryAudit.mode().equals("restart-screen")) {
+            if (mc.screen instanceof TitleScreen) {
+                mc.setScreen(new net.Gabou.dynamictreescompat.client.screen.PendingRestartScreen());
+            }
+            if (mc.screen instanceof net.Gabou.dynamictreescompat.client.screen.PendingRestartScreen
+                    && ++screenTicks >= 40 && !screenshotRequested) {
+                screenshotRequested = true;
+                net.minecraft.client.Screenshot.grab(mc.gameDirectory, "restart-screen.png", mc.getMainRenderTarget(),
+                        message -> mc.execute(mc::stop));
+            }
+            return;
+        }
         if (!connecting && mc.screen instanceof TitleScreen) {
             connecting = true;
             connectionStarted = System.nanoTime();
