@@ -4,5 +4,6 @@
   "package": "dev.jensh.dtcregistryfix.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": ["MoonlightAutoFinderRegistrarMixin", "ServerConfigurationPacketListenerMixin"],
+  "client": ["PendingRestartScreenMixin"],
   "injectors": { "defaultRequire": 1 }
 }
