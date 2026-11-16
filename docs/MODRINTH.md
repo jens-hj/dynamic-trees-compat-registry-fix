@@ -1,8 +1,12 @@
 # Dynamic Trees Compat Registry Fix
 
-Fixes a Dynamic Trees: Universal Compat **2.3** startup inconsistency that can prevent joining multiplayer servers with errors about unknown blocks or items.
+Fixes two Dynamic Trees: Universal Compat **2.3** inconsistencies that can prevent joining multiplayer servers with errors about unknown blocks or items.
 
 The original mod can detect different wood types depending on whether its cache is used. Every Compat and Supplementaries may then generate different furniture and signs on the client and server. This addon makes both startup paths use the same wood-resource scan.
+
+It also ensures the server's generated tree pack reaches the client **before registry validation**. Without this, an older client pack can cause unknown branch, seed, or sapling errors before the original mod gets a chance to synchronize it.
+
+**If asked to restart after pack synchronization, fully quit and relaunch Minecraft, then reconnect.** This lets Minecraft register the updated trees during startup.
 
 ### Requirements
 

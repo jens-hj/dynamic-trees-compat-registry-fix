@@ -6,9 +6,13 @@ Dynamic Trees Compat's cached startup registers wood finders from its broad tree
 
 This addon makes the cached path perform the same resource scan as fresh startup. Generated-tree caching and the original mod's pack synchronization remain enabled. The tradeoff is one resource scan per launch.
 
+It also moves DTC's generated-pack configuration task ahead of NeoForge's registry synchronization. Otherwise a client with an older tree pack is rejected for unknown branches, seeds, and saplings before DTC can transfer the updated pack. The original transfer, acknowledgement, and restart behavior are retained; other configuration tasks keep their relative order.
+
 ## Installation
 
 Install this addon alongside Dynamic Trees Compat 2.3 on **both client and server**, then fully restart both. Do not replace the original mod. Other DTC versions are deliberately rejected until tested.
+
+If joining reports that the server pack was synchronized, fully quit and relaunch Minecraft, then reconnect. Returning to the multiplayer screen is insufficient because block and item registration happens at startup.
 
 Back up existing worlds before installation. If a world already contains furniture generated only by the old cached registration path, those entries may disappear with the corrected registry. Test a copy first; this addon does not migrate such blocks or items.
 
