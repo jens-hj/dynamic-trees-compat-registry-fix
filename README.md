@@ -14,6 +14,8 @@ Install this addon alongside Dynamic Trees Compat 2.3 on **both client and serve
 
 If joining reports that the server pack was synchronized, fully quit and relaunch Minecraft, then reconnect. Returning to the multiplayer screen is insufficient because block and item registration happens at startup.
 
+The addon also corrects DTC's restart-screen render order on the client, keeping its title and explanation sharp while retaining the blurred background and original buttons.
+
 Back up existing worlds before installation. If a world already contains furniture generated only by the old cached registration path, those entries may disappear with the corrected registry. Test a copy first; this addon does not migrate such blocks or items.
 
 ## Development
@@ -29,6 +31,8 @@ nix develop -c ./gradlew build testmodJar
 Full Engineering tests require production launches: its Sinytra Connector build cannot resolve the clean Minecraft artifact in a Gradle development launch. `scripts/production-client.py` uses an existing Modrinth 1.21.1/NeoForge 21.1.266 runtime with an offline test identity, no account credentials, and an isolated game directory. Run it through `scripts/headless.py` inside `nix develop` to prevent desktop windows; it writes muted options before launch.
 
 Compare fresh and cached server/client snapshots, then verify multiplayer joining and repeat startup. Preserve the generated tree pack between runs; remove only the generation cache when explicitly testing a fresh scan.
+
+For a visual regression check, launch the isolated client with `restart-screen` mode. It opens the original restart prompt, captures `screenshots/restart-screen.png` after 40 ticks, and exits. Inspect that the title, explanation, and buttons remain sharp over the blurred panorama.
 
 The test-only `-Dregistry.audit.cacheFixture=true` option makes an existing generation snapshot eligible even when temporary launcher paths change its input fingerprint. This exercises the real cached registration branch without changing the cached candidates or pack fingerprint. The production-client script accepts `AUDIT_CACHE_FIXTURE=true` for this scenario. Always confirm the cached-path log message; a second launch alone does not prove a cache hit.
 

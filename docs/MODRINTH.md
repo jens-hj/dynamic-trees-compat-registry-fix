@@ -8,6 +8,8 @@ It also ensures the server's generated tree pack reaches the client **before reg
 
 **If asked to restart after pack synchronization, fully quit and relaunch Minecraft, then reconnect.** This lets Minecraft register the updated trees during startup.
 
+The restart prompt's title and explanation stay sharp and readable, with the background blur preserved.
+
 ### Requirements
 
 - Minecraft **1.21.1**, NeoForge **21.1.266 or newer within 1.21.1**.

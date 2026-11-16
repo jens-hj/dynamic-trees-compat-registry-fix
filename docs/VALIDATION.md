@@ -1,5 +1,11 @@
 # Validation
 
+## 0.1.2: readable restart prompt
+
+Build, testmod compilation, and the non-publishing release preview pass. An isolated, muted production client under Xvfb opened DTC's original `PendingRestartScreen` using the test auditor's `restart-screen` mode. After 40 ticks it saved `build/audit/client/screenshots/restart-screen.png` and exited normally. Visual inspection confirms sharp title, wrapped explanation, and both original buttons over the blurred panorama.
+
+The rendering mixin is registered only in the Mixin configuration's `client` list. The production jar contains four addon classes, with no test classes. The 0.1.1 networking implementation is unchanged; the full login regression was not rerun for this visual-only patch.
+
 ## 0.1.1: stale generated-pack recovery
 
 Tested with isolated production Minecraft 1.21.1 / NeoForge 21.1.266 launches, Java 21, and Engineering fixtures. The server binds only to `127.0.0.1:25579`; the client uses an offline test identity, a separate game directory, Xvfb, and muted audio. No live player connection or world modification is involved.
