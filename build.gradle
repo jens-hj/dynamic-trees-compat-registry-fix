@@ -49,9 +49,10 @@ modrinth {
     gameVersions = ['1.21.1']
     loaders = ['neoforge']
     changelog = providers.fileContents(layout.projectDirectory.file('CHANGELOG.md')).asText.map {
-        it.split('## 0.1.0')[1].trim()
+        it.split('## ' + java.util.regex.Pattern.quote(project.version.toString()) + '\\s*', 2)[1].split('\\n## ', 2)[0].trim()
     }
     dependencies { required.version 'zz3RX281' }
+    syncBodyFrom = file('docs/MODRINTH.md').text
 }
 tasks.named('modrinth') { notCompatibleWithConfigurationCache('Minotaur reads Task.project') }
 
@@ -66,6 +67,7 @@ if (providers.gradleProperty('modrinthDryRun').isPresent()) {
                 requiredVersion: 'zz3RX281', file: tasks.jar.archiveFile.get().asFile.name,
                 sources: tasks.sourcesJar.archiveFile.get().asFile.name]
             println groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(preview))
+            println modrinth.changelog.get()
             println 'Dry run: upload action disabled.'
         }
     }
