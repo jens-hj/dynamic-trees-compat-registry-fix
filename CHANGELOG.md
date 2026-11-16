@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Keep the restart prompt's title and explanation sharp instead of blurring them into the background.
+
 ## 0.1.1
 
 - Fix joining servers whose generated tree pack contains branches, seeds, or saplings missing from the client's older pack. Pack synchronization now runs before registry validation.
